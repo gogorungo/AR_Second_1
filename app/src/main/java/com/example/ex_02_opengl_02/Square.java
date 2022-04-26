@@ -30,57 +30,17 @@ public class Square {
             +"}";
 
     // 직사각형 점들의 좌표
-//    static float [] squareCoords = {
-//            // x , y   , z
-//            -0.5f, 0.5f, 0.0f, // 왼쪽 위
-//            -0.5f, -0.5f, 0.0f, // 왼쪽 아래
-//            0.5f, -0.5f, 0.0f, // 오른쪽 아래
-//            0.5f, 0.5f, 0.0f // 오른쪽 위
-//
-//    };
-
-    static float [] squareCoords;
-
-    public void circle(){
-
-        ArrayList<Float> al = new ArrayList<>();
-
-        al.add(0.0f);
-        al.add(0.0f);
-        al.add(0.0f);
-        al.add(1.0f);
-        al.add(0.0f);
-        al.add(0.0f);
-
-
-        for(float i =0; i < 1000; i++){
-            al.add((float) (1.0f*Math.cos(i)));
-            al.add((float) (1.0f*Math.sin(i)));
-            al.add((float) (0.0f));
-        }
-
-        squareCoords = new float[al.size()];
-        for(int i=0; i < al.size(); i++){
-            squareCoords[i] = al.get(i);
-        }
-
-
-        int a = 0;
-        int b = 1;
-        int c = 2;
-
-        drawOrder = new short[al.size()];
-        for(int i = 0; i < al.size(); i = i + 3){
-
-            drawOrder[i] = (short) a;
-            drawOrder[i+1] = (short) b;
-            drawOrder[i+2] = (short) c;
-            b++;
-            c++;
-        }
-    }
-
-
+    static float [] squareCoords = {
+            // x , y   , z
+            -0.5f, 0.5f, -0.5f, // 1
+            -0.5f, -0.5f, -0.5f, // 2
+            0.5f, -0.5f, -0.5f, // 3
+            0.5f, 0.5f, -0.5f, // 4
+            -0.5f, 0.5f, 0.5f, // 5
+            -0.5f, -0.5f, 0.5f, // 6
+            0.5f, -0.5f, 0.5f, // 7
+            0.5f, 0.5f, 0.5f // 8
+    };
 
 
     // 색깔 (빨간색에 가까운 색)
@@ -88,11 +48,21 @@ public class Square {
 
     // 그리는 순서. 점의 위치를 반시계방향을 맞춰야한다
     // squareCoords 의 위에서부터 0,1,2 순서
-//    short [] drawOrder =  {
-//            0,1,2,
-//            0,2,3
-//    };
-    short [] drawOrder;
+    short [] drawOrder =  {
+            0,1,2,
+            0,2,3,
+            0,4,7,
+            0,7,3,
+            0,4,5,
+            0,5,1,
+            4,5,6,
+            4,6,7,
+            1,5,6,
+            1,6,2,
+            7,6,2,
+            7,2,3
+    };
+
 
 
     FloatBuffer vertexBuffer;
@@ -102,7 +72,6 @@ public class Square {
     // 버퍼로 만들어서 쪼개 보낸다
     public Square(){
 
-        circle();
 
         // float 가 4byte 이므로 * 4 를 해준다
         ByteBuffer bb = ByteBuffer.allocateDirect(squareCoords.length * 4);
